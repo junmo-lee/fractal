@@ -7,20 +7,20 @@
 		{
 			"type": "lldb",
 			"request": "launch",
-			"name": "Debug bonus",
-			"program": "${workspaceFolder}/debug_bonus.out",
-			"args": ["0 0 0 10 255 255 255 10"],
+			"name": "Debug Mandatory",
+			"program": "${workspaceFolder}/debug.out",
+			"args": ["0", "24", "42", "10", "255", "255", "255", "10"],
 			"cwd": "${workspaceFolder}",
-			"preLaunchTask": "Build : Debug bonus"
+			"preLaunchTask": "Build : Debug Mandatory"
 		},
 		{
 			"type": "lldb",
 			"request": "launch",
-			"name": "Debug Mandatory",
-			"program": "${workspaceFolder}/debug.out",
-			"args": ["0 0 0 10 255 255 255 10"],
+			"name": "Debug bonus",
+			"program": "${workspaceFolder}/debug_bonus.out",
+			"args": ["0", "24", "42", "10", "255", "255", "255", "10"],
 			"cwd": "${workspaceFolder}",
-			"preLaunchTask": "Build : Debug Mandatory"
+			"preLaunchTask": "Build : Debug bonus"
 		}
 	]
 }

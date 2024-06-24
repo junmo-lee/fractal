@@ -19,7 +19,7 @@ INC_B	= fractal_bouns.h
 LIBS	= -L ./libft -lft -L /usr/local/lib -lmlx -framework OpenGL -framework AppKit
 
 SRCS	= main.c \
-			parsing.c \
+			init.c parsing.c atoi_check_num.c \
 			
 SRCS_B	= main_bonus.c
 

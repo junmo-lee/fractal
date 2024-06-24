@@ -5,6 +5,7 @@
 		"libft.h": "c",
 		"stdlib.h": "c",
 		"unistd.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"iterator": "c"
 	}
 }
