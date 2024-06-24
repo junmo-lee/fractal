@@ -6,6 +6,7 @@
 		"stdlib.h": "c",
 		"unistd.h": "c",
 		"stdio.h": "c",
-		"iterator": "c"
+		"iterator": "c",
+		"ios": "c"
 	}
 }
