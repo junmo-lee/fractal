@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:35:47 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/25 20:33:32 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/25 22:19:22 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,21 @@
 # define WEIGHT 1080
 # define HEIGHT 720
 
-# define WEIGHT_D 1080.0L
-# define HEIGHT_D 720.0L
-
-# define ITER_MAX 1000
+# define ITER_MAX 100
 
 # define ZOOM_UP 1
 # define ZOOM_DOWN -1
+# define ZOOM_NONE 0
 
 # define SCALE_FACTOR 0.25
+
+typedef struct s_pos
+{
+	double	x0;
+	double	y0;
+	double	x1;
+	double	y1;
+}	t_pos;
 
 typedef struct s_args
 {
@@ -50,13 +56,12 @@ typedef struct s_vars
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-	int		iter;
 	int		mouse_x;
 	int		mouse_y;
-	int		test_val;
 	int		zoom_stat;
 	double	dx;
 	double	dy;
+	void	(*fractal_f)(struct s_vars*, struct s_args*, int, int);
 	t_args	*args;
 }	t_vars;
 
@@ -86,26 +91,22 @@ typedef enum e_mousecode
 }	t_mousecode;
 
 
-typedef struct s_pos
-{
-	double	x0;
-	double	y0;
-	double	x1;
-	double	y1;
-}	t_pos;
-
-
-int	init(t_args	*args);
+int	init(t_vars	*vars, t_args *args);
 
 int	parsing(t_args *args, int argc, char *argv[]);
-int	parsing2(t_args *args, int argc, char *argv[]);
+int	args_config(t_vars *args);
+
+
 int	atoi_check_num(const char *str, int *target);
 int	atoi_double_check_num(const char *str, double *target);
 
 void	my_mlx_pixel_put(t_vars *data, int x, int y, int color);
 int	trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);
 
-int	julia_loop(t_vars *vars, t_args *args);
-int	mandelbrot_loop(t_vars *vars, t_args *args);
+void	julia_point(t_vars *vars, t_args *args, int screen_x, int screen_y);
+void	mandelbrot_point(t_vars *vars, t_args *args, int x, int y);
+
+void	draw_loop(t_vars *vars);
+void	zoom(t_vars *vars);
 
 #endif

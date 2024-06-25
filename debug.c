@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 22:11:59 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/25 20:25:10 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/25 21:13:41 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	key_press(int keycode, t_vars *vars)
 		// clock_t end = clock();
 		// double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 		// mlx_string_put(vars->mlx, vars->win, 10, 10, 0xFF0000, ft_itoa((int)(1/time_spent)));
-		vars->test_val += 100;
 	}
 	return (0);
 }
@@ -85,7 +84,7 @@ int	mouse_down(int butten, int x, int y, t_vars *vars)
 	else
 		vars->zoom_stat = 0;
 	printf("%lf x : %d y : %d\n",(vars->args)->scale, x, y);
-	julia_loop(vars, (vars->args));
+	julia_loop(vars);
 	//mandelbrot_loop(vars, (vars->args));
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
 	return (0);

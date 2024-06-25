@@ -20,7 +20,8 @@ LIBS	= -L ./libft -lft -L /usr/local/lib -lmlx -framework OpenGL -framework AppK
 
 SRCS	= main.c \
 			init.c parsing.c atoi_check_num.c \
-			julia.c mandelbrot_set.c
+			julia.c mandelbrot_set.c \
+			draw_fractal.c 
 			
 SRCS_B	= main_bonus.c
 

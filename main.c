@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:33:24 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/25 20:37:01 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/25 21:47:46 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,67 +37,35 @@ int	key_press(int keycode, t_vars *vars)
 	return (0);
 }
 
-// int	mouse_up(int butten, t_vars *vars)
-// {
-// 	if (butten == MCODE_SCROLLUP)
-// 		printf("scroll up _ up!\n");
-// 	printf("mouse up!\n");
-// 	return (0);
-// }
-
 int	mouse_down(int butten, int x, int y, t_vars *vars)
 {
 	vars->mouse_x = x;
 	vars->mouse_y = y;
 	if (butten == MCODE_SCROLLUP)
-	{
 		vars->zoom_stat = ZOOM_UP;
-		printf("scroll up! : ");
-	}
 	else if (butten == MCODE_SCROLLDOWN)
-	{
 		vars->zoom_stat = ZOOM_DOWN;
-		printf("scroll down! : %lf\n",(vars->args)->scale);
-	}
 	else
 		vars->zoom_stat = 0;
-	printf("%lf x : %d y : %d\n",(vars->args)->scale, x, y);
-	julia_loop(vars, (vars->args));
-	//mandelbrot_loop(vars, (vars->args));
+	draw_loop(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
 	return (0);
 }
-
-int exit_hook()
-{
-	exit(0);
-}
-
 
 int	main(int argc, char *argv[])
 {
 	t_args	args;
 	t_vars	vars;
 
-	init(&args);
-	vars.args = &args;
+	init(&vars, &args);
 	if (parsing(&args, argc, argv))
 		return (1);
-	vars.mlx = mlx_init();
-	// 이미지 객체 생성
-	vars.win = mlx_new_window(vars.mlx, WEIGHT, HEIGHT, "hello world");
-	vars.img = mlx_new_image(vars.mlx, WEIGHT, HEIGHT);
-	vars.addr = mlx_get_data_addr(vars.img, \
-		&(vars.bits_per_pixel), &(vars.line_length), &(vars.endian));
-	vars.zoom_stat = 0;
-	julia_loop(&vars, &args);
-	printf("%d %lf\n",args.trgb0, args.color_ratio);
+	args_config(&vars);
+	vars.fractal_f = mandelbrot_point;
+	draw_loop(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 
-	//mlx_hook(vars.win, ON_MOUSEUP, 0, mouse_up, &vars);
 	mlx_hook(vars.win, ON_MOUSEDOWN, 0, mouse_down, &vars);
 	mlx_hook(vars.win, ON_KEYUP, 0, key_press, &vars);
-	mlx_hook(vars.win, ON_DESTROY, 0, exit_hook, 0); // close button press event
 	mlx_loop(vars.mlx);
-
 }

@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 21:20:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/25 20:37:46 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/25 21:42:01 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,17 @@ int	parsing(t_args *args, int argc, char *argv[])
 	if (argc > 6)
 		if (atoi_double_check_num(argv[6], &(args->scale)) == 0)
 			return (print_help());
+	return (0);
+}
+
+int	args_config(t_vars	*vars)
+{
+	vars->args->scale /= 1000.0;
+	vars->args->center_x /= 10000.0;
+	vars->args->center_y /= 10000.0;
+	if (vars->args->type == 0)
+		vars->fractal_f = julia_point;
+	else if (vars->args->type == 1)
+		vars->fractal_f = mandelbrot_point;
 	return (0);
 }
