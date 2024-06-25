@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 21:20:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/24 20:43:22 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/25 20:37:46 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	print_help(void)
 int	parsing(t_args *args, int argc, char *argv[])
 {
 	int	is_num;
-	int	num;
 
 	is_num = 0;
 	if (argc == 1)
@@ -43,28 +42,19 @@ int	parsing(t_args *args, int argc, char *argv[])
 	if (is_num == 0 || 0 > args->type || args->type > 2)
 		return (print_help());
 	if (argc > 2)
-		if (atoi_check_num(argv[2], &(args->center_x)) == 0)
+		if (atoi_double_check_num(argv[2], &(args->center_x)) == 0)
 			return (print_help());
 	if (argc > 3)
-		if (atoi_check_num(argv[3], &args->center_y) == 0)
+		if (atoi_double_check_num(argv[3], &args->center_y) == 0)
 			return (print_help());
 	if (argc > 4)
-	{
-
-		if (atoi_check_num(argv[4], &num) == 0)
+		if (atoi_double_check_num(argv[4], &(args->scale)) == 0)
 			return (print_help());
-		args->scale = num;	
-	}
 	if (argc > 5)
-		if (atoi_check_num(argv[5], &args->trgb0) == 0)
+		if (atoi_check_num(argv[5], &(args->trgb0)) == 0)
 			return (print_help());
 	if (argc > 6)
-
-	{
-
-		if (atoi_check_num(argv[6], &num) == 0)
+		if (atoi_double_check_num(argv[6], &(args->scale)) == 0)
 			return (print_help());
-		args->color_ratio = num;
-	}
 	return (0);
 }

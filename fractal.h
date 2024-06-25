@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:35:47 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/25 15:39:46 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/25 20:33:32 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,25 @@
 
 # define WEIGHT 1080
 # define HEIGHT 720
-# define ITER_MAX 100
+
+# define WEIGHT_D 1080.0L
+# define HEIGHT_D 720.0L
+
+# define ITER_MAX 1000
+
+# define ZOOM_UP 1
+# define ZOOM_DOWN -1
+
+# define SCALE_FACTOR 0.25
 
 typedef struct s_args
 {
 	int		type;
-	int		center_x;
-	int		center_y;
-	double		scale;
+	double	center_x;
+	double	center_y;
+	double	scale;
 	int		trgb0;
-	double		color_ratio;
+	double	color_ratio;
 }	t_args;
 
 typedef struct s_vars
@@ -45,6 +54,9 @@ typedef struct s_vars
 	int		mouse_x;
 	int		mouse_y;
 	int		test_val;
+	int		zoom_stat;
+	double	dx;
+	double	dy;
 	t_args	*args;
 }	t_vars;
 
@@ -88,6 +100,7 @@ int	init(t_args	*args);
 int	parsing(t_args *args, int argc, char *argv[]);
 int	parsing2(t_args *args, int argc, char *argv[]);
 int	atoi_check_num(const char *str, int *target);
+int	atoi_double_check_num(const char *str, double *target);
 
 void	my_mlx_pixel_put(t_vars *data, int x, int y, int color);
 int	trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);

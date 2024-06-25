@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 22:11:59 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/25 15:46:07 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/25 20:25:10 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,19 @@ int	mouse_down(int butten, int x, int y, t_vars *vars)
 	vars->mouse_y = y;
 	if (butten == MCODE_SCROLLUP)
 	{
-		(vars->args)->scale *= 0.75;
-		printf("scroll up! : %lf\n",(vars->args)->scale);
+		// (vars->args)->scale *= 0.75;
+		vars->zoom_stat = ZOOM_UP;
+		printf("scroll up! : ");
 	}
 	else if (butten == MCODE_SCROLLDOWN)
 	{
-		(vars->args)->scale *= 1.25;
+		// (vars->args)->scale *= 1.25;
+		vars->zoom_stat = ZOOM_DOWN;
 		printf("scroll down! : %lf\n",(vars->args)->scale);
 	}
-	printf("mouse_pos : %d %d\n", x, y);
+	else
+		vars->zoom_stat = 0;
+	printf("%lf x : %d y : %d\n",(vars->args)->scale, x, y);
 	julia_loop(vars, (vars->args));
 	//mandelbrot_loop(vars, (vars->args));
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
@@ -110,13 +114,14 @@ int	main(int argc, char *argv[])
 	vars.addr = mlx_get_data_addr(vars.img, \
 		&(vars.bits_per_pixel), &(vars.line_length), &(vars.endian));
 	printf("Check parsing\n");
-	printf("%d %d %d %lf\n",args.type, args.center_x, args.center_y, args.scale);
+	printf("%d %lf %lf %lf\n",args.type, args.center_x, args.center_y, args.scale);
 	for(int i=1;i<WEIGHT;i++)
 	{
 		for (int j=1;j<HEIGHT;j++)
 			my_mlx_pixel_put(&vars, i, j, trgb(0, 0, 0, 0));
 			//my_mlx_pixel_put(&vars, i, j, trgb(0, i / (double)WEIGHT * 255, vars.iter, 0));
 	}
+	vars.zoom_stat = 0;
 	julia_loop(&vars, &args);
 	printf("%d %lf\n",args.trgb0, args.color_ratio);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);

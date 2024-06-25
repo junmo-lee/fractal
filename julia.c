@@ -6,32 +6,40 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 18:23:57 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/25 15:54:38 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/25 20:37:53 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
+#include <stdio.h>
 
-void update_center_with_mouse(t_args *args, int mouse_x, int mouse_y)
+int	zoom(t_vars *vars)
 {
-    double dx = (mouse_x - WEIGHT / 2) / 1000.0;
-    double dy = (mouse_y - HEIGHT / 2) / 1000.0;
-    args->center_x += dx * args->scale;
-    args->center_y += dy * args->scale;
+	if (vars->zoom_stat == 0)
+		return (0);
+	printf("zoom run! : ");
+	vars->dx += vars->args->scale / 1000.0 * SCALE_FACTOR * (vars->mouse_x - WEIGHT / 2);
+	vars->dy += vars->args->scale / 1000.0 * SCALE_FACTOR * (vars->mouse_y - HEIGHT / 2);
+	//확대(scale 이 감소하는 방향)
+	if (vars->zoom_stat == ZOOM_UP)
+		vars->args->scale *= (1 - SCALE_FACTOR);
+	//축소(scale 이 증가하는 방향) 
+	else if (vars->zoom_stat == ZOOM_DOWN)
+		vars->args->scale *= (1 + SCALE_FACTOR);
+	printf("%lf %lf\n ", vars->dx, vars->dy);
+	return (0);
 }
 
-int	julia_point(t_vars *vars, t_args *args, int x, int y)
+int	julia_point(t_vars *vars, t_args *args, int screen_x, int screen_y)
 {
 	t_pos	c;
 
-	//c.x0 = args->scale / 1000.0 * (x - WEIGHT / 2 + vars->test_val);
-	double dx = (vars->mouse_x - WEIGHT / 2);
-    double dy = (vars->mouse_y - HEIGHT / 2);
-	c.x0 = args->scale / 1000.0 * (x - WEIGHT / 2 - dx);
-	c.y0 = args->scale / 1000.0 * (y - HEIGHT / 2 - dy);
-
-	// -7453 1314 / 10000.0 인데 이값을 바꿔도 되나?
-	double cx = args->center_x / 10000.0;
+	// to screen x to world x
+	// zoom 변수에서 scale 이 변경된 이후 
+	c.x0 = args->scale / 1000.0 * (screen_x - WEIGHT / 2) + vars->dx;
+	c.y0 = args->scale / 1000.0 * (screen_y - HEIGHT / 2) + vars->dy;
+ 
+ 	double cx = args->center_x / 10000.0;
 	double cy = args->center_y / 10000.0;
 
 	for(int iter=0;iter<ITER_MAX;iter++)
@@ -40,21 +48,25 @@ int	julia_point(t_vars *vars, t_args *args, int x, int y)
 		c.y1 = 2 * c.x0 * c.y0 + cy;
 		if (c.x1 * c.x1 + c.y1 * c.y1 > args->color_ratio)
 		{
-			my_mlx_pixel_put(vars, x, y, trgb(0, iter%64, 0, (255 - iter%255)/5));
+			my_mlx_pixel_put(vars, screen_x, screen_y, trgb(0, iter / 3, iter/100, iter/5));
 			return (0);
 		}
 		c.x0 = c.x1;
 		c.y0 = c.y1;
 	}
+	return (0);
 }
 
 int	julia_loop(t_vars *vars, t_args *args)
 {
-	//update_center_with_mouse(args, vars->mouse_x, vars->mouse_y);
+	// 값 정규화?
+	zoom(vars);
 
 	for(int i=1;i<WEIGHT;i++)
 	{
 		for (int j=1;j<HEIGHT;j++)
 			julia_point(vars, args, i, j);
 	}
+	vars->zoom_stat = 0;
+	return (1);
 }

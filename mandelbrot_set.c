@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 21:49:11 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/24 21:54:17 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/25 20:38:04 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	mandelbrot_point(t_vars *vars, t_args *args, int x, int y)
 		c.x0 = c.x1;
 		c.y0 = c.y1;
 	}
+	return (0);
 }
 
 int	mandelbrot_loop(t_vars *vars, t_args *args)
@@ -47,4 +48,5 @@ int	mandelbrot_loop(t_vars *vars, t_args *args)
 		for (int j=1;j<HEIGHT;j++)
 			mandelbrot_point(vars, args, i, j);
 	}
+	return (0);
 }
