@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:35:47 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/24 21:55:26 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/25 15:39:46 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ typedef struct s_vars
 	int		line_length;
 	int		endian;
 	int		iter;
+	int		mouse_x;
+	int		mouse_y;
+	int		test_val;
 	t_args	*args;
 }	t_vars;
 

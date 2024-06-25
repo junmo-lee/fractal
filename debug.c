@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 22:11:59 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/24 21:54:47 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/25 15:46:07 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,21 @@ int	key_press(int keycode, t_vars *vars)
 		mlx_destroy_window(vars->mlx, vars->win);
 		exit(0);
 	}
-	// else
-	// {
-	// 	clock_t begin = clock();
-	// 	vars->iter += 10;
-	// 	for(int i=0;i<100;i++)
-	// 	{
-	// 		for (int j=0;j<100;j++)
-	// 			my_mlx_pixel_put(vars, 500 + i, 500 + j, trgb(0, 0xFF, vars->iter, 0));
-	// 	}
-	// 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
-	// 	clock_t end = clock();
-	// 	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-	// 	mlx_string_put(vars->mlx, vars->win, 10, 10, 0xFF0000, ft_itoa((int)(1/time_spent)));
-	// }
+	else
+	{
+		// clock_t begin = clock();
+		// vars->iter += 10;
+		// for(int i=0;i<100;i++)
+		// {
+		// 	for (int j=0;j<100;j++)
+		// 		my_mlx_pixel_put(vars, 500 + i, 500 + j, trgb(0, 0xFF, vars->iter, 0));
+		// }
+		// mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
+		// clock_t end = clock();
+		// double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+		// mlx_string_put(vars->mlx, vars->win, 10, 10, 0xFF0000, ft_itoa((int)(1/time_spent)));
+		vars->test_val += 100;
+	}
 	return (0);
 }
 
@@ -67,20 +68,21 @@ int	mouse_up(int butten, t_vars *vars)
 
 int	mouse_down(int butten, int x, int y, t_vars *vars)
 {
-	x++;
-	y++;
+	vars->mouse_x = x;
+	vars->mouse_y = y;
 	if (butten == MCODE_SCROLLUP)
 	{
-		(vars->args)->scale *= 1.25;
+		(vars->args)->scale *= 0.75;
 		printf("scroll up! : %lf\n",(vars->args)->scale);
 	}
 	else if (butten == MCODE_SCROLLDOWN)
 	{
-		(vars->args)->scale *= 0.75;
+		(vars->args)->scale *= 1.25;
 		printf("scroll down! : %lf\n",(vars->args)->scale);
 	}
-	//julia_loop(vars, (vars->args));
-	mandelbrot_loop(vars, (vars->args));
+	printf("mouse_pos : %d %d\n", x, y);
+	julia_loop(vars, (vars->args));
+	//mandelbrot_loop(vars, (vars->args));
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
 	return (0);
 }
