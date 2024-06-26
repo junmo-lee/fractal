@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:35:47 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/25 22:19:22 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:29:08 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,30 @@
 # include "libft/libft.h"
 # include <math.h>
 # include <mlx.h>
+# include <fcntl.h> 
 # include <stdbool.h>
 
 # define WEIGHT 1080
 # define HEIGHT 720
 
-# define ITER_MAX 100
+# define ITER_MAX 500
 
 # define ZOOM_UP 1
 # define ZOOM_DOWN -1
 # define ZOOM_NONE 0
 
+# define KEY_X_UP 1
+# define KEY_X_DOWN 2
+# define KEY_Y_UP 3
+# define KEY_Y_DOWN 4
+# define KEY_MOVE_NONE 0
+# define KEY_OFFSET 100
+
 # define SCALE_FACTOR 0.25
+# define ARGS_DIV 10000.0
+
+# define COLORMAP_DIR "color_map.bin"
+# define PALETTE_SIZE 256
 
 typedef struct s_pos
 {
@@ -44,7 +56,7 @@ typedef struct s_args
 	double	center_y;
 	double	scale;
 	int		trgb0;
-	double	color_ratio;
+	double	div_val;
 }	t_args;
 
 typedef struct s_vars
@@ -59,9 +71,11 @@ typedef struct s_vars
 	int		mouse_x;
 	int		mouse_y;
 	int		zoom_stat;
+	int		key_move;
 	double	dx;
 	double	dy;
 	void	(*fractal_f)(struct s_vars*, struct s_args*, int, int);
+	int		*colormap;
 	t_args	*args;
 }	t_vars;
 
@@ -78,7 +92,11 @@ typedef enum e_event
 
 typedef enum e_keycode
 {
-	KCODE_ESC = 53
+	KCODE_ESC = 53,
+	KCODE_LEFT_ARROW = 123,
+	KCODE_RIGHT_ARROW = 124,
+	KCODE_DOWN_ARROW = 125,
+	KCODE_UP_ARROW = 126
 }	t_keycode;
 
 typedef enum e_mousecode
@@ -108,5 +126,7 @@ void	mandelbrot_point(t_vars *vars, t_args *args, int x, int y);
 
 void	draw_loop(t_vars *vars);
 void	zoom(t_vars *vars);
+
+int	read_colormap(int *colormap);
 
 #endif

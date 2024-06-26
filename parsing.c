@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 21:20:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/25 21:42:01 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/26 13:39:34 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ int	parsing(t_args *args, int argc, char *argv[])
 
 int	args_config(t_vars	*vars)
 {
-	vars->args->scale /= 1000.0;
-	vars->args->center_x /= 10000.0;
-	vars->args->center_y /= 10000.0;
+	vars->args->scale /= ARGS_DIV;
+	vars->args->center_x /= ARGS_DIV;
+	vars->args->center_y /= ARGS_DIV;
 	if (vars->args->type == 0)
 		vars->fractal_f = julia_point;
 	else if (vars->args->type == 1)

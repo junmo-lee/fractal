@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 22:11:59 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/25 21:13:41 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/26 16:07:29 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	main(int argc, char *argv[])
 	}
 	vars.zoom_stat = 0;
 	julia_loop(&vars, &args);
-	printf("%d %lf\n",args.trgb0, args.color_ratio);
+	printf("%d %lf\n",args.trgb0, args.div_val);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 	mlx_string_put(vars.mlx, vars.win, 10, 10, 0xFF0000, test);
 

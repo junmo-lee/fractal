@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:33:24 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/25 21:47:46 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:27:14 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b)
 {
 	return (*(int *)(unsigned char [4]){b, g, r, t});
 }
-
 
 void	my_mlx_pixel_put(t_vars *data, int x, int y, int color)
 {
@@ -34,6 +33,18 @@ int	key_press(int keycode, t_vars *vars)
 		mlx_destroy_window(vars->mlx, vars->win);
 		exit(0);
 	}
+	else if (keycode == KCODE_LEFT_ARROW)
+		vars->key_move = KEY_X_UP;
+	else if (keycode == KCODE_RIGHT_ARROW)
+		vars->key_move = KEY_X_DOWN;
+	else if (keycode == KCODE_UP_ARROW)
+		vars->key_move = KEY_Y_UP;
+	else if (keycode == KCODE_DOWN_ARROW)
+		vars->key_move = KEY_Y_DOWN;
+	else
+		vars->key_move = KEY_MOVE_NONE;
+	draw_loop(vars);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
 	return (0);
 }
 
@@ -46,7 +57,10 @@ int	mouse_down(int butten, int x, int y, t_vars *vars)
 	else if (butten == MCODE_SCROLLDOWN)
 		vars->zoom_stat = ZOOM_DOWN;
 	else
-		vars->zoom_stat = 0;
+	{
+		vars->zoom_stat = ZOOM_NONE;
+		return (0);
+	}
 	draw_loop(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
 	return (0);
@@ -56,12 +70,14 @@ int	main(int argc, char *argv[])
 {
 	t_args	args;
 	t_vars	vars;
+	int		color_map[PALETTE_SIZE];
 
 	init(&vars, &args);
+	read_colormap(color_map);
+	vars.colormap = color_map;
 	if (parsing(&args, argc, argv))
 		return (1);
 	args_config(&vars);
-	vars.fractal_f = mandelbrot_point;
 	draw_loop(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 

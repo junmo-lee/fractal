@@ -7,6 +7,9 @@
 		"unistd.h": "c",
 		"stdio.h": "c",
 		"iterator": "c",
-		"ios": "c"
+		"ios": "c",
+		"__node_handle": "c",
+		"istream": "c",
+		"fcntl.h": "c"
 	}
 }
