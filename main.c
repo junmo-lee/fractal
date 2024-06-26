@@ -6,17 +6,11 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:33:24 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/26 17:27:14 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/26 20:15:00 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
-#include <stdio.h>
-
-int	trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b)
-{
-	return (*(int *)(unsigned char [4]){b, g, r, t});
-}
 
 void	my_mlx_pixel_put(t_vars *data, int x, int y, int color)
 {
@@ -42,7 +36,10 @@ int	key_press(int keycode, t_vars *vars)
 	else if (keycode == KCODE_DOWN_ARROW)
 		vars->key_move = KEY_Y_DOWN;
 	else
+	{
 		vars->key_move = KEY_MOVE_NONE;
+		return (0);
+	}
 	draw_loop(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
 	return (0);
@@ -80,7 +77,6 @@ int	main(int argc, char *argv[])
 	args_config(&vars);
 	draw_loop(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
-
 	mlx_hook(vars.win, ON_MOUSEDOWN, 0, mouse_down, &vars);
 	mlx_hook(vars.win, ON_KEYUP, 0, key_press, &vars);
 	mlx_loop(vars.mlx);

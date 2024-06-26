@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:35:47 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/26 17:29:08 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/26 21:10:42 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@
 # include <math.h>
 # include <mlx.h>
 # include <fcntl.h> 
-# include <stdbool.h>
 
 # define WEIGHT 1080
 # define HEIGHT 720
 
-# define ITER_MAX 500
+# define ITER_MAX 1000
 
 # define ZOOM_UP 1
 # define ZOOM_DOWN -1
@@ -38,8 +37,10 @@
 # define SCALE_FACTOR 0.25
 # define ARGS_DIV 10000.0
 
-# define COLORMAP_DIR "color_map.bin"
+# define COLORMAP_DIR "viridis_color_map.bin"
 # define PALETTE_SIZE 256
+# define WHITE_TRGB 0x00FFFFFF
+# define BLACK_TRGB 0x00000000
 
 typedef struct s_pos
 {
@@ -52,17 +53,18 @@ typedef struct s_pos
 typedef struct s_args
 {
 	int		type;
-	double	center_x;
-	double	center_y;
+	double	cx;
+	double	cy;
 	double	scale;
-	int		trgb0;
-	double	div_val;
+	double	threshold;
+	int		color_start;
+	int		color_end;
 }	t_args;
 
 typedef struct s_vars
 {
-	void		*mlx;
-	void		*win;
+	void	*mlx;
+	void	*win;
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
@@ -109,24 +111,27 @@ typedef enum e_mousecode
 }	t_mousecode;
 
 
-int	init(t_vars	*vars, t_args *args);
+int		init(t_vars	*vars, t_args *args);
 
-int	parsing(t_args *args, int argc, char *argv[]);
-int	args_config(t_vars *args);
+int		parsing(t_args *args, int argc, char *argv[]);
+int		parsing2(t_args *args, int argc, char *argv[]);
 
+int		args_config(t_vars *args);
+size_t	normlization(t_args *args, int iter);
+int		read_colormap(int *colormap);
 
-int	atoi_check_num(const char *str, int *target);
-int	atoi_double_check_num(const char *str, double *target);
+int		atoi_check_num(const char *str, int *target);
+int		atoi_double_check_num(const char *str, double *target);
 
 void	my_mlx_pixel_put(t_vars *data, int x, int y, int color);
-int	trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);
 
 void	julia_point(t_vars *vars, t_args *args, int screen_x, int screen_y);
 void	mandelbrot_point(t_vars *vars, t_args *args, int x, int y);
+void	burning_ship_point(t_vars *vars, t_args *args, int x, int y);
 
 void	draw_loop(t_vars *vars);
+void	center_move(t_vars *vars);
 void	zoom(t_vars *vars);
 
-int	read_colormap(int *colormap);
 
 #endif

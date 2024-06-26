@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 22:11:59 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/26 16:07:29 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/26 20:47:11 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	main(int argc, char *argv[])
 	vars.addr = mlx_get_data_addr(vars.img, \
 		&(vars.bits_per_pixel), &(vars.line_length), &(vars.endian));
 	printf("Check parsing\n");
-	printf("%d %lf %lf %lf\n",args.type, args.center_x, args.center_y, args.scale);
+	printf("%d %lf %lf %lf\n",args.type, args.cx, args.cy, args.scale);
 	for(int i=1;i<WEIGHT;i++)
 	{
 		for (int j=1;j<HEIGHT;j++)
@@ -122,7 +122,7 @@ int	main(int argc, char *argv[])
 	}
 	vars.zoom_stat = 0;
 	julia_loop(&vars, &args);
-	printf("%d %lf\n",args.trgb0, args.div_val);
+	printf("%lf\n", args.threshold);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 	mlx_string_put(vars.mlx, vars.win, 10, 10, 0xFF0000, test);
 

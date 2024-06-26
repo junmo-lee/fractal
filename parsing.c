@@ -6,55 +6,60 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 21:20:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/26 13:39:34 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/26 21:08:54 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
-#include <stdio.h>
-
 
 int	print_help(void)
 {
 	write(STDOUT_FILENO, "----read me!----\n", 18);
 	write(STDOUT_FILENO, "1. Type of fractal\n", 20);
-	write(STDOUT_FILENO, " 0 : 쥘리아 집합\n", 23);
-	write(STDOUT_FILENO, " 1 : 망델브로 집합 집합\n", 33);
-	write(STDOUT_FILENO, "2 3. start pos x, y\n", 21);
-	write(STDOUT_FILENO, "4 start scale\n", 15);
-	write(STDOUT_FILENO, "5 trgb\n", 8);
-	write(STDOUT_FILENO, "6. color ratio\n", 16);
-	write(STDOUT_FILENO, "RGB 제외 인자들은 양수 int로, 소수점 아래 절삭\n", 64);
-	write(STDOUT_FILENO, "없는 인자들은 기본값으로 설정\n", 44);
-	write(STDOUT_FILENO, "기본값 : 0 0 0 10 0 0 0 10\n", 31);
+	write(STDOUT_FILENO, " 0 : julia set\n", 16);
+	write(STDOUT_FILENO, " 1 : mandelbrot set\n", 21);
+	write(STDOUT_FILENO, " 2 : burning ship set\n", 23);
+	write(STDOUT_FILENO, "2, 3. cx, cy\n", 14);
+	write(STDOUT_FILENO, "4. start scale\n", 16);
+	write(STDOUT_FILENO, "5. divergence threshold\n", 25);
+	write(STDOUT_FILENO, "6, 7. color_start, color_end(0~255)\n", 37);
+	write(STDOUT_FILENO, "정수값만 허용\n", 21);
+	write(STDOUT_FILENO, "기본값 : 0 -7453 1313 10 4 0 255\n", 37);
 	write(STDOUT_FILENO, "이후 인자들은 무시\n", 28);
 	return (1);
 }
 
 int	parsing(t_args *args, int argc, char *argv[])
 {
-	int	is_num;
-
-	is_num = 0;
 	if (argc == 1)
 		return (print_help());
-	is_num = atoi_check_num(argv[1], &(args->type));
-	if (is_num == 0 || 0 > args->type || args->type > 2)
+	if (atoi_check_num(argv[1], &(args->type)) == 0 \
+		|| 0 > args->type || args->type > 3)
 		return (print_help());
 	if (argc > 2)
-		if (atoi_double_check_num(argv[2], &(args->center_x)) == 0)
+		if (atoi_double_check_num(argv[2], &(args->cx)) == 0)
 			return (print_help());
 	if (argc > 3)
-		if (atoi_double_check_num(argv[3], &args->center_y) == 0)
+		if (atoi_double_check_num(argv[3], &args->cy) == 0)
 			return (print_help());
 	if (argc > 4)
 		if (atoi_double_check_num(argv[4], &(args->scale)) == 0)
 			return (print_help());
 	if (argc > 5)
-		if (atoi_check_num(argv[5], &(args->trgb0)) == 0)
+		if (atoi_double_check_num(argv[5], &(args->threshold)) == 0)
 			return (print_help());
+	return (parsing2(args, argc, argv));
+}
+
+int	parsing2(t_args *args, int argc, char *argv[])
+{
 	if (argc > 6)
-		if (atoi_double_check_num(argv[6], &(args->scale)) == 0)
+		if (atoi_check_num(argv[6], &(args->color_start)) == 0 \
+			|| 0 > args->color_start || args->color_start >= PALETTE_SIZE)
+			return (print_help());
+	if (argc > 7)
+		if (atoi_check_num(argv[7], &(args->color_end)) == 0 \
+			|| 0 > args->color_end || args->color_end >= PALETTE_SIZE)
 			return (print_help());
 	return (0);
 }
@@ -62,11 +67,15 @@ int	parsing(t_args *args, int argc, char *argv[])
 int	args_config(t_vars	*vars)
 {
 	vars->args->scale /= ARGS_DIV;
-	vars->args->center_x /= ARGS_DIV;
-	vars->args->center_y /= ARGS_DIV;
+	vars->args->cx /= ARGS_DIV;
+	vars->args->cy /= ARGS_DIV;
 	if (vars->args->type == 0)
 		vars->fractal_f = julia_point;
 	else if (vars->args->type == 1)
 		vars->fractal_f = mandelbrot_point;
+	else if (vars->args->type == 2)
+		vars->fractal_f = burning_ship_point;
+	if (vars->args->type == 1 || vars->args->type == 2)
+		center_move(vars);
 	return (0);
 }

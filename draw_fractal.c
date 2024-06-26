@@ -6,11 +6,17 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:37:38 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/26 15:45:55 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/26 20:09:55 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
+
+void	center_move(t_vars *vars)
+{
+	vars->dx += vars->args->scale * vars->args->cx * KEY_OFFSET;
+	vars->dy += vars->args->scale * vars->args->cy * KEY_OFFSET;
+}
 
 void	keymove(t_vars *vars)
 {

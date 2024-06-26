@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 21:49:11 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/26 17:34:50 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/26 20:47:11 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,22 @@ void	mandelbrot_point(t_vars *vars, t_args *args, int x, int y)
 
 	cx = args->scale * (x - WEIGHT / 2) + vars->dx;
 	cy = args->scale * (y - HEIGHT / 2) + vars->dy;
-	c.x0 = args->center_x;
-	c.y0 = args->center_y;
+	c.x0 = 0;
+	c.y0 = 0;
 	iter = 0;
 	while (iter < ITER_MAX)
 	{
 		c.x1 = c.x0 * c.x0 - c.y0 * c.y0 + cx;
 		c.y1 = 2 * c.x0 * c.y0 + cy;
-		if (c.x1 * c.x1 + c.y1 * c.y1 > args->div_val)
+		if (c.x1 * c.x1 + c.y1 * c.y1 > args->threshold)
 		{
 			my_mlx_pixel_put(vars, x, y, \
-				vars->colormap[PALETTE_SIZE * iter / ITER_MAX]);
+				vars->colormap[normlization(vars->args, iter)]);
 			return ;
 		}
 		c.x0 = c.x1;
 		c.y0 = c.y1;
 		iter++;
 	}
-	my_mlx_pixel_put(vars, x, y, trgb(0, 0, 0, 0));
+	my_mlx_pixel_put(vars, x, y, vars->colormap[PALETTE_SIZE]);
 }
