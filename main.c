@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:33:24 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/27 15:38:52 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/27 17:23:54 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,16 @@ void	error_exit(t_vars *vars)
 	exit(EXIT_FAILURE);
 }
 
-void	my_mlx_pixel_put(t_vars *data, int x, int y, int color)
+void	normal_exit(t_vars *vars)
 {
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
+	mlx_destroy_window(vars->mlx, vars->win);
+	exit(EXIT_SUCCESS);
 }
 
 int	key_press(int keycode, t_vars *vars)
 {
 	if (keycode == KCODE_ESC)
-	{
-		mlx_destroy_window(vars->mlx, vars->win);
-		exit(EXIT_SUCCESS);
-	}
+		normal_exit(vars);
 	else if (keycode == KCODE_LEFT_ARROW)
 		vars->key_move = KEY_X_UP;
 	else if (keycode == KCODE_RIGHT_ARROW)
@@ -86,6 +81,7 @@ int	main(int argc, char *argv[])
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 	mlx_hook(vars.win, ON_MOUSEDOWN, 0, mouse_down, &vars);
 	mlx_hook(vars.win, ON_KEYUP, 0, key_press, &vars);
+	mlx_hook(vars.win, ON_DESTROY, 0, normal_exit, &vars);
 	mlx_loop(vars.mlx);
 	mlx_destroy_window(vars.mlx, vars.win);
 	return (EXIT_SUCCESS);
