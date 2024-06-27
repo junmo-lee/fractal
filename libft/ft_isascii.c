@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractal_bouns.h                                    :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: junmlee <junmlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/21 20:38:17 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/21 22:16:40 by junmlee          ###   ########.fr       */
+/*   Created: 2023/10/06 19:29:38 by junmlee           #+#    #+#             */
+/*   Updated: 2023/10/29 20:35:48 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTAL_BOUNS_H
-# define FRACTAL_BOUNS_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <math.h>
-
-
-#endif
+int	ft_isascii(int c)
+{
+	return (0 <= c & c <= 0177);
+}
