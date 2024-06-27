@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:35:47 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/27 17:23:31 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/27 17:27:59 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ typedef enum e_mousecode
 }	t_mousecode;
 
 int		init(t_vars	*vars, t_args *args);
-void	error_exit(t_vars *vars);
-void	normal_exit(t_vars *vars);
+int		error_exit(t_vars *vars);
+int		normal_exit(t_vars *vars);
 
 int		parsing(t_args *args, int argc, char *argv[]);
 int		parsing2(t_args *args, int argc, char *argv[]);

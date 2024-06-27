@@ -6,22 +6,24 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:33:24 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/27 17:24:01 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/27 17:28:42 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal_bonus.h"
 
-void	error_exit(t_vars *vars)
+int	error_exit(t_vars *vars)
 {
 	mlx_destroy_window(vars->mlx, vars->win);
 	exit(EXIT_FAILURE);
+	return (1);
 }
 
-void	normal_exit(t_vars *vars)
+int	normal_exit(t_vars *vars)
 {
 	mlx_destroy_window(vars->mlx, vars->win);
 	exit(EXIT_SUCCESS);
+	return (0);
 }
 
 int	key_press(int keycode, t_vars *vars)
