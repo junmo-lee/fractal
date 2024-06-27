@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:35:47 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/27 15:38:16 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/27 16:11:51 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ typedef enum e_mousecode
 	MCODE_SCROLLDOWN = 5
 }	t_mousecode;
 
-
 int		init(t_vars	*vars, t_args *args);
 void	error_exit(t_vars *vars);
 
@@ -133,6 +132,5 @@ void	burning_ship_point(t_vars *vars, t_args *args, int x, int y);
 void	draw_loop(t_vars *vars);
 void	center_move(t_vars *vars);
 void	zoom(t_vars *vars);
-
 
 #endif
