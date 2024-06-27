@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 21:20:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/26 21:08:54 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/27 15:52:50 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	print_help(void)
 {
 	write(STDOUT_FILENO, "----read me!----\n", 18);
-	write(STDOUT_FILENO, "1. Type of fractal\n", 20);
+	write(STDOUT_FILENO, "1. Type of fractal(Required)\n", 30);
 	write(STDOUT_FILENO, " 0 : julia set\n", 16);
 	write(STDOUT_FILENO, " 1 : mandelbrot set\n", 21);
 	write(STDOUT_FILENO, " 2 : burning ship set\n", 23);
@@ -23,8 +23,8 @@ int	print_help(void)
 	write(STDOUT_FILENO, "4. start scale\n", 16);
 	write(STDOUT_FILENO, "5. divergence threshold\n", 25);
 	write(STDOUT_FILENO, "6, 7. color_start, color_end(0~255)\n", 37);
-	write(STDOUT_FILENO, "정수값만 허용\n", 21);
-	write(STDOUT_FILENO, "기본값 : 0 -7453 1313 10 4 0 255\n", 37);
+	write(STDOUT_FILENO, "정수값만 허용, ARGS_DIV로 나뉘어짐\n", 47);
+	write(STDOUT_FILENO, "없는 인자들의 기본값 : 0 -7453 1313 10 4 0 255\n", 57);
 	write(STDOUT_FILENO, "이후 인자들은 무시\n", 28);
 	return (1);
 }

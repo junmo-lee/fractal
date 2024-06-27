@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:35:47 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/26 21:10:42 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/27 15:38:16 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct s_vars
 	double	dx;
 	double	dy;
 	void	(*fractal_f)(struct s_vars*, struct s_args*, int, int);
-	int		*colormap;
+	int		*color_map;
 	t_args	*args;
 }	t_vars;
 
@@ -112,6 +112,7 @@ typedef enum e_mousecode
 
 
 int		init(t_vars	*vars, t_args *args);
+void	error_exit(t_vars *vars);
 
 int		parsing(t_args *args, int argc, char *argv[]);
 int		parsing2(t_args *args, int argc, char *argv[]);

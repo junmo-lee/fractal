@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 16:40:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/26 20:40:43 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/27 14:50:54 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	read_colormap(int *colormap)
 
 	fd = open(COLORMAP_DIR, O_RDONLY);
 	if (fd == -1)
-		return (0);
+		return (1);
 	read_byte = read(fd, colormap, PALETTE_SIZE * sizeof(int));
 	if (read_byte != PALETTE_SIZE * 4)
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }

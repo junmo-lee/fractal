@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:37:38 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/26 20:09:55 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/27 15:29:17 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	draw_loop(t_vars *vars)
 	int	i;
 	int	j;
 
+	mlx_clear_window(vars->mlx, vars->win);
 	keymove(vars);
 	zoom(vars);
 	i = 0;

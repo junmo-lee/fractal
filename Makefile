@@ -41,7 +41,7 @@ ifdef IGNORE_ERROR
 endif
 
 ifdef DEBUG_FLAG
-	CFLAGS += -g3 -fsanitize=address
+	CFLAGS += -g3
 endif
 
 $(LIBFT) :

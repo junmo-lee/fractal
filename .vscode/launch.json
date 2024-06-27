@@ -9,7 +9,7 @@
 			"request": "launch",
 			"name": "Debug Mandatory",
 			"program": "${workspaceFolder}/debug.out",
-			"args": ["0", "10", "10", "500"],
+			"args": ["0"],
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Build : Debug Mandatory"
 		},

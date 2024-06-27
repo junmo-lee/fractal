@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 18:06:01 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/26 20:47:11 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/27 15:38:09 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	burning_ship_point(t_vars *vars, t_args *args, int x, int y)
 		if (c.x1 * c.x1 + c.y1 * c.y1 > args->threshold)
 		{
 			my_mlx_pixel_put(vars, x, y, \
-				vars->colormap[normlization(vars->args, iter)]);
+				vars->color_map[normlization(vars->args, iter)]);
 			return ;
 		}
 		c.x0 = c.x1;
 		c.y0 = c.y1;
 		iter++;
 	}
-	my_mlx_pixel_put(vars, x, y, vars->colormap[PALETTE_SIZE]);
+	my_mlx_pixel_put(vars, x, y, vars->color_map[PALETTE_SIZE - 1]);
 }

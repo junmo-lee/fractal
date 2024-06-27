@@ -6,11 +6,17 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:33:24 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/26 20:15:00 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/27 15:38:52 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
+
+void	error_exit(t_vars *vars)
+{
+	mlx_destroy_window(vars->mlx, vars->win);
+	exit(EXIT_FAILURE);
+}
 
 void	my_mlx_pixel_put(t_vars *data, int x, int y, int color)
 {
@@ -25,7 +31,7 @@ int	key_press(int keycode, t_vars *vars)
 	if (keycode == KCODE_ESC)
 	{
 		mlx_destroy_window(vars->mlx, vars->win);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	else if (keycode == KCODE_LEFT_ARROW)
 		vars->key_move = KEY_X_UP;
@@ -70,14 +76,17 @@ int	main(int argc, char *argv[])
 	int		color_map[PALETTE_SIZE];
 
 	init(&vars, &args);
-	read_colormap(color_map);
-	vars.colormap = color_map;
+	if (read_colormap(color_map))
+		error_exit(&vars);
+	vars.color_map = color_map;
 	if (parsing(&args, argc, argv))
-		return (1);
+		error_exit(&vars);
 	args_config(&vars);
 	draw_loop(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 	mlx_hook(vars.win, ON_MOUSEDOWN, 0, mouse_down, &vars);
 	mlx_hook(vars.win, ON_KEYUP, 0, key_press, &vars);
 	mlx_loop(vars.mlx);
+	mlx_destroy_window(vars.mlx, vars.win);
+	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:34:32 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/26 21:11:53 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/27 15:35:20 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(int argc, char *argv[])
 
 	init(&vars, &args);
 	read_colormap(color_map);
-	vars.colormap = color_map;
+	vars.color_map = color_map;
 	if (parsing(&args, argc, argv))
 		return (1);
 	args_config(&vars);
