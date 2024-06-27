@@ -1,0 +1,92 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/21 20:33:24 by junmlee           #+#    #+#             */
+/*   Updated: 2024/06/27 16:19:16 by junmlee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fractal_bonus.h"
+
+void	error_exit(t_vars *vars)
+{
+	mlx_destroy_window(vars->mlx, vars->win);
+	exit(EXIT_FAILURE);
+}
+
+void	my_mlx_pixel_put(t_vars *data, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}
+
+int	key_press(int keycode, t_vars *vars)
+{
+	if (keycode == KCODE_ESC)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		exit(EXIT_SUCCESS);
+	}
+	else if (keycode == KCODE_LEFT_ARROW)
+		vars->key_move = KEY_X_UP;
+	else if (keycode == KCODE_RIGHT_ARROW)
+		vars->key_move = KEY_X_DOWN;
+	else if (keycode == KCODE_UP_ARROW)
+		vars->key_move = KEY_Y_UP;
+	else if (keycode == KCODE_DOWN_ARROW)
+		vars->key_move = KEY_Y_DOWN;
+	else
+	{
+		vars->key_move = KEY_MOVE_NONE;
+		return (0);
+	}
+	draw_loop(vars);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
+	return (0);
+}
+
+int	mouse_down(int butten, int x, int y, t_vars *vars)
+{
+	vars->mouse_x = x;
+	vars->mouse_y = y;
+	if (butten == MCODE_SCROLLUP)
+		vars->zoom_stat = ZOOM_UP;
+	else if (butten == MCODE_SCROLLDOWN)
+		vars->zoom_stat = ZOOM_DOWN;
+	else
+	{
+		vars->zoom_stat = ZOOM_NONE;
+		return (0);
+	}
+	draw_loop(vars);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
+	return (0);
+}
+
+int	main(int argc, char *argv[])
+{
+	t_args	args;
+	t_vars	vars;
+	int		color_map[PALETTE_SIZE];
+
+	init(&vars, &args);
+	if (read_colormap(color_map))
+		error_exit(&vars);
+	vars.color_map = color_map;
+	if (parsing(&args, argc, argv))
+		error_exit(&vars);
+	args_config(&vars);
+	draw_loop(&vars);
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
+	mlx_hook(vars.win, ON_MOUSEDOWN, 0, mouse_down, &vars);
+	mlx_hook(vars.win, ON_KEYUP, 0, key_press, &vars);
+	mlx_loop(vars.mlx);
+	mlx_destroy_window(vars.mlx, vars.win);
+	return (EXIT_SUCCESS);
+}
