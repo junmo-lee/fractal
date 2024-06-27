@@ -54,12 +54,10 @@ bonus : $(NAME_B)
 clean :
 	make -C $(LIBFT_DIR) clean
 	rm -f $(OBJS) $(OBJS_B) $(DEF) $(DEF_B)
-	rm -f $(DEBUG_O) $(DEBUG_B_O)
 
 fclean :
 	make -C $(LIBFT_DIR) fclean
 	rm -f $(OBJS) $(OBJS_B) $(DEF) $(DEF_B) $(NAME) $(NAME_B)
-	rm -f $(DEBUG_O) $(DEBUG_B_O) $(DEBUG_NAME) $(DEBUG_NAME_B)
 
 re :
 	make fclean
