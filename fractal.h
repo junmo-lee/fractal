@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:35:47 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/25 15:39:46 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/27 15:38:16 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,68 @@
 # include "libft/libft.h"
 # include <math.h>
 # include <mlx.h>
-# include <stdbool.h>
+# include <fcntl.h> 
 
 # define WEIGHT 1080
 # define HEIGHT 720
-# define ITER_MAX 100
+
+# define ITER_MAX 1000
+
+# define ZOOM_UP 1
+# define ZOOM_DOWN -1
+# define ZOOM_NONE 0
+
+# define KEY_X_UP 1
+# define KEY_X_DOWN 2
+# define KEY_Y_UP 3
+# define KEY_Y_DOWN 4
+# define KEY_MOVE_NONE 0
+# define KEY_OFFSET 100
+
+# define SCALE_FACTOR 0.25
+# define ARGS_DIV 10000.0
+
+# define COLORMAP_DIR "viridis_color_map.bin"
+# define PALETTE_SIZE 256
+# define WHITE_TRGB 0x00FFFFFF
+# define BLACK_TRGB 0x00000000
+
+typedef struct s_pos
+{
+	double	x0;
+	double	y0;
+	double	x1;
+	double	y1;
+}	t_pos;
 
 typedef struct s_args
 {
 	int		type;
-	int		center_x;
-	int		center_y;
-	double		scale;
-	int		trgb0;
-	double		color_ratio;
+	double	cx;
+	double	cy;
+	double	scale;
+	double	threshold;
+	int		color_start;
+	int		color_end;
 }	t_args;
 
 typedef struct s_vars
 {
-	void		*mlx;
-	void		*win;
+	void	*mlx;
+	void	*win;
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-	int		iter;
 	int		mouse_x;
 	int		mouse_y;
-	int		test_val;
+	int		zoom_stat;
+	int		key_move;
+	double	dx;
+	double	dy;
+	void	(*fractal_f)(struct s_vars*, struct s_args*, int, int);
+	int		*color_map;
 	t_args	*args;
 }	t_vars;
 
@@ -61,7 +94,11 @@ typedef enum e_event
 
 typedef enum e_keycode
 {
-	KCODE_ESC = 53
+	KCODE_ESC = 53,
+	KCODE_LEFT_ARROW = 123,
+	KCODE_RIGHT_ARROW = 124,
+	KCODE_DOWN_ARROW = 125,
+	KCODE_UP_ARROW = 126
 }	t_keycode;
 
 typedef enum e_mousecode
@@ -74,25 +111,28 @@ typedef enum e_mousecode
 }	t_mousecode;
 
 
-typedef struct s_pos
-{
-	double	x0;
-	double	y0;
-	double	x1;
-	double	y1;
-}	t_pos;
+int		init(t_vars	*vars, t_args *args);
+void	error_exit(t_vars *vars);
 
+int		parsing(t_args *args, int argc, char *argv[]);
+int		parsing2(t_args *args, int argc, char *argv[]);
 
-int	init(t_args	*args);
+int		args_config(t_vars *args);
+size_t	normlization(t_args *args, int iter);
+int		read_colormap(int *colormap);
 
-int	parsing(t_args *args, int argc, char *argv[]);
-int	parsing2(t_args *args, int argc, char *argv[]);
-int	atoi_check_num(const char *str, int *target);
+int		atoi_check_num(const char *str, int *target);
+int		atoi_double_check_num(const char *str, double *target);
 
 void	my_mlx_pixel_put(t_vars *data, int x, int y, int color);
-int	trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);
 
-int	julia_loop(t_vars *vars, t_args *args);
-int	mandelbrot_loop(t_vars *vars, t_args *args);
+void	julia_point(t_vars *vars, t_args *args, int screen_x, int screen_y);
+void	mandelbrot_point(t_vars *vars, t_args *args, int x, int y);
+void	burning_ship_point(t_vars *vars, t_args *args, int x, int y);
+
+void	draw_loop(t_vars *vars);
+void	center_move(t_vars *vars);
+void	zoom(t_vars *vars);
+
 
 #endif

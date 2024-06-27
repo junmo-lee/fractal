@@ -20,7 +20,9 @@ LIBS	= -L ./libft -lft -L /usr/local/lib -lmlx -framework OpenGL -framework AppK
 
 SRCS	= main.c \
 			init.c parsing.c atoi_check_num.c \
-			julia.c mandelbrot_set.c
+			colormap.c \
+			julia.c mandelbrot_set.c burning_ship.c \
+			draw_fractal.c 
 			
 SRCS_B	= main_bonus.c
 
@@ -39,7 +41,7 @@ ifdef IGNORE_ERROR
 endif
 
 ifdef DEBUG_FLAG
-	CFLAGS += -g3 -fsanitize=address
+	CFLAGS += -g3
 endif
 
 $(LIBFT) :
