@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:35:47 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/28 16:33:52 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/28 17:20:48 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@
 # define SCALE_FACTOR 0.25
 # define ARGS_DIV 10000.0
 
-# define WHITE_TRGB 0x00FFFFFF
-# define BLACK_TRGB 0x00000000
 # define RGB_T 0
 # define RGB_MAX 255
 
@@ -79,7 +77,6 @@ typedef struct s_vars
 	double	dy;
 	void	(*fractal_f)(struct s_vars*, struct s_args*, int, int);
 	int		*color_map;
-	int		(*color_map_f)(t_args*, int*);
 	t_args	*args;
 }	t_vars;
 
@@ -120,8 +117,7 @@ int		parsing(t_args *args, int argc, char *argv[]);
 int		parsing2(t_args *args, int argc, char *argv[]);
 
 int		args_config(t_vars *args);
-int		make_colormap_log(t_args *args, int *color_map);
-int		make_colormap_liner(t_args *args, int *color_mliner);
+int		make_colormap(t_args *args, int *color_map);
 
 int		atoi_check_num(const char *str, int *target);
 int		atoi_double_check_num(const char *str, double *target);
