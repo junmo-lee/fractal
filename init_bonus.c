@@ -6,13 +6,11 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 14:08:57 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/28 16:35:15 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/28 16:49:47 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal_bonus.h"
-
-#include "fractal.h"
 
 int	init(t_vars	*vars, t_args *args)
 {
