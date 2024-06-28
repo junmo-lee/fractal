@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 21:20:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/27 15:52:50 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/28 16:19:43 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,19 @@ int	print_help(void)
 	write(STDOUT_FILENO, "4. start scale\n", 16);
 	write(STDOUT_FILENO, "5. divergence threshold\n", 25);
 	write(STDOUT_FILENO, "6, 7. color_start, color_end(0~255)\n", 37);
+	write(STDOUT_FILENO, "8. colormap type\n", 18);
+	write(STDOUT_FILENO, " 0 : log scale\n", 16);
+	write(STDOUT_FILENO, " 1 : linear\n", 13);
 	write(STDOUT_FILENO, "정수값만 허용, ARGS_DIV로 나뉘어짐\n", 47);
-	write(STDOUT_FILENO, "없는 인자들의 기본값 : 0 -7453 1313 10 4 0 255\n", 57);
+	write(STDOUT_FILENO, "없는 인자들의 기본값 : 0 -7453 1313 10 4 0 255 0\n", 59);
 	write(STDOUT_FILENO, "이후 인자들은 무시\n", 28);
 	return (1);
 }
 
 int	parsing(t_args *args, int argc, char *argv[])
-{
+{	
+	if (ARGS_DIV == 0)
+		return (1);
 	if (argc == 1)
 		return (print_help());
 	if (atoi_check_num(argv[1], &(args->type)) == 0 \
@@ -55,11 +60,15 @@ int	parsing2(t_args *args, int argc, char *argv[])
 {
 	if (argc > 6)
 		if (atoi_check_num(argv[6], &(args->color_start)) == 0 \
-			|| 0 > args->color_start || args->color_start >= PALETTE_SIZE)
+			|| 0 > args->color_start || args->color_start > RGB_MAX)
 			return (print_help());
 	if (argc > 7)
 		if (atoi_check_num(argv[7], &(args->color_end)) == 0 \
-			|| 0 > args->color_end || args->color_end >= PALETTE_SIZE)
+			|| 0 > args->color_end || args->color_end > RGB_MAX)
+			return (print_help());
+	if (argc > 8)
+		if (atoi_check_num(argv[8], &(args->colormap_type)) == 0 \
+			|| 0 > args->type || args->type > 2)
 			return (print_help());
 	return (0);
 }
@@ -77,5 +86,9 @@ int	args_config(t_vars	*vars)
 		vars->fractal_f = burning_ship_point;
 	if (vars->args->type == 1 || vars->args->type == 2)
 		center_move(vars);
+	if (vars->args->colormap_type == 0)
+		vars->color_map_f = make_colormap_log;
+	else if (vars->args->colormap_type == 1)
+		vars->color_map_f = make_colormap_liner;
 	return (0);
 }

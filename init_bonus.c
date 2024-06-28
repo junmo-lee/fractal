@@ -6,11 +6,13 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 14:08:57 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/27 16:19:08 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/28 16:27:21 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal_bonus.h"
+
+#include "fractal.h"
 
 int	init(t_vars	*vars, t_args *args)
 {
@@ -22,7 +24,8 @@ int	init(t_vars	*vars, t_args *args)
 	vars->args->scale = 10;
 	vars->args->threshold = 4;
 	vars->args->color_start = 0;
-	vars->args->color_end = PALETTE_SIZE - 1;
+	vars->args->color_end = ITER_MAX - 1;
+	vars->args->colormap_type = 0;
 	vars->mlx = mlx_init();
 	vars->win = mlx_new_window(vars->mlx, WEIGHT, HEIGHT, "fractal");
 	vars->img = mlx_new_image(vars->mlx, WEIGHT, HEIGHT);

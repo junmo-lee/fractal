@@ -6,28 +6,56 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 16:40:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/27 14:50:54 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/28 16:08:14 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
 
-size_t	normlization(t_args *args, int iter)
+int	trgb(t_args *args, int i, unsigned char t)
 {
-	return (args->color_start + \
-		(args->color_end - args->color_start) * (iter / (double)ITER_MAX));
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+
+	r = args->color_start + i / 2;
+	g = args->color_start + i / 3;
+	b = args->color_start + i;
+	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-int	read_colormap(int *colormap)
+int	make_colormap_log(t_args *args, int *color_map)
 {
-	int		fd;
-	ssize_t	read_byte;
+	int		i;
+	double	n;
 
-	fd = open(COLORMAP_DIR, O_RDONLY);
-	if (fd == -1)
+	if (ITER_MAX == 0)
 		return (1);
-	read_byte = read(fd, colormap, PALETTE_SIZE * sizeof(int));
-	if (read_byte != PALETTE_SIZE * 4)
+	n = (double)(args->color_end - args->color_start) / log(ITER_MAX);
+	color_map[0] = trgb(args, 0, RGB_T);
+	i = 1;
+	while (i < ITER_MAX)
+	{
+		color_map[i] = trgb(args, log(i) * n, RGB_T);
+		i++;
+	}
+	return (0);
+}
+
+int	make_colormap_liner(t_args *args, int *color_map)
+{
+	int		i;
+	int		n;
+
+	if (ITER_MAX == 0)
 		return (1);
+	n = args->color_end - args->color_start;
+	color_map[0] = trgb(args, 0, RGB_T);
+	i = 1;
+	while (i < ITER_MAX)
+	{
+		color_map[i] = trgb(args, n * i / ITER_MAX, RGB_T);
+		i++;
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:33:24 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/27 17:28:48 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/28 16:20:44 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,15 @@ int	main(int argc, char *argv[])
 {
 	t_args	args;
 	t_vars	vars;
-	int		color_map[PALETTE_SIZE];
+	int		color_map[ITER_MAX];
 
 	init(&vars, &args);
-	if (read_colormap(color_map))
-		error_exit(&vars);
-	vars.color_map = color_map;
 	if (parsing(&args, argc, argv))
 		error_exit(&vars);
 	args_config(&vars);
+	vars.color_map = color_map;
+	if (vars.color_map_f(&args, color_map))
+		error_exit(&vars);
 	draw_loop(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 	mlx_hook(vars.win, ON_MOUSEDOWN, 0, mouse_down, &vars);

@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 21:49:11 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/27 16:19:19 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/28 16:32:51 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	mandelbrot_point(t_vars *vars, t_args *args, int x, int y)
 		if (c.x1 * c.x1 + c.y1 * c.y1 > args->threshold)
 		{
 			my_mlx_pixel_put(vars, x, y, \
-				vars->color_map[normlization(vars->args, iter)]);
+				vars->color_map[iter]);
 			return ;
 		}
 		c.x0 = c.x1;
 		c.y0 = c.y1;
 		iter++;
 	}
-	my_mlx_pixel_put(vars, x, y, vars->color_map[PALETTE_SIZE - 1]);
+	my_mlx_pixel_put(vars, x, y, vars->color_map[0]);
 }

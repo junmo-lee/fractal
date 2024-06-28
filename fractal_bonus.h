@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:35:47 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/27 17:27:59 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/28 16:33:52 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define WEIGHT 1080
 # define HEIGHT 720
 
-# define ITER_MAX 1000
+# define ITER_MAX 500
 
 # define ZOOM_UP 1
 # define ZOOM_DOWN -1
@@ -37,10 +37,10 @@
 # define SCALE_FACTOR 0.25
 # define ARGS_DIV 10000.0
 
-# define COLORMAP_DIR "viridis_color_map.bin"
-# define PALETTE_SIZE 256
 # define WHITE_TRGB 0x00FFFFFF
 # define BLACK_TRGB 0x00000000
+# define RGB_T 0
+# define RGB_MAX 255
 
 typedef struct s_pos
 {
@@ -59,6 +59,7 @@ typedef struct s_args
 	double	threshold;
 	int		color_start;
 	int		color_end;
+	int		colormap_type;
 }	t_args;
 
 typedef struct s_vars
@@ -78,6 +79,7 @@ typedef struct s_vars
 	double	dy;
 	void	(*fractal_f)(struct s_vars*, struct s_args*, int, int);
 	int		*color_map;
+	int		(*color_map_f)(t_args*, int*);
 	t_args	*args;
 }	t_vars;
 
@@ -118,8 +120,8 @@ int		parsing(t_args *args, int argc, char *argv[]);
 int		parsing2(t_args *args, int argc, char *argv[]);
 
 int		args_config(t_vars *args);
-size_t	normlization(t_args *args, int iter);
-int		read_colormap(int *colormap);
+int		make_colormap_log(t_args *args, int *color_map);
+int		make_colormap_liner(t_args *args, int *color_mliner);
 
 int		atoi_check_num(const char *str, int *target);
 int		atoi_double_check_num(const char *str, double *target);
