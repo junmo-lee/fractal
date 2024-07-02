@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 20:35:47 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/28 17:20:48 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/02 13:48:09 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "libft/libft.h"
 # include <math.h>
 # include <mlx.h>
-# include <fcntl.h> 
 
 # define WEIGHT 1080
 # define HEIGHT 720
