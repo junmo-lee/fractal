@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 14:08:57 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/28 16:49:47 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/02 18:07:50 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,5 @@ int	init(t_vars	*vars, t_args *args)
 	vars->args->color_start = 0;
 	vars->args->color_end = ITER_MAX - 1;
 	vars->args->colormap_type = 0;
-	vars->mlx = mlx_init();
-	vars->win = mlx_new_window(vars->mlx, WEIGHT, HEIGHT, "fractal");
-	vars->img = mlx_new_image(vars->mlx, WEIGHT, HEIGHT);
-	vars->addr = mlx_get_data_addr(vars->img, \
-		&(vars->bits_per_pixel), &(vars->line_length), &(vars->endian));
 	return (0);
 }

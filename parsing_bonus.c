@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 21:20:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/28 17:22:11 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/02 18:07:35 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	print_help(void)
 	write(STDOUT_FILENO, " 1 : mandelbrot set\n", 21);
 	write(STDOUT_FILENO, " 2 : burning ship set\n", 23);
 	write(STDOUT_FILENO, "2, 3. cx, cy\n", 14);
-	write(STDOUT_FILENO, "4. start scale\n", 16);
-	write(STDOUT_FILENO, "5. divergence threshold\n", 25);
+	write(STDOUT_FILENO, "4. start scale(positive)\n", 26);
+	write(STDOUT_FILENO, "5. divergence threshold(positive)\n", 35);
 	write(STDOUT_FILENO, "6, 7. color_start, color_end(0~255)\n", 37);
 	write(STDOUT_FILENO, "정수값만 허용, ARGS_DIV로 나뉘어짐\n", 47);
 	write(STDOUT_FILENO, "없는 인자들의 기본값 : 0 -7453 1313 10 4 0 255\n", 57);
@@ -68,6 +68,15 @@ int	parsing2(t_args *args, int argc, char *argv[])
 
 int	args_config(t_vars	*vars)
 {
+	vars->mlx = mlx_init();
+	if (vars->mlx == NULL)
+		exit(EXIT_FAILURE);
+	vars->win = mlx_new_window(vars->mlx, WEIGHT, HEIGHT, "fractal");
+	vars->img = mlx_new_image(vars->mlx, WEIGHT, HEIGHT);
+	vars->addr = mlx_get_data_addr(vars->img, \
+		&(vars->bits_per_pixel), &(vars->line_length), &(vars->endian));
+	if (vars->win == NULL || vars->img == NULL || vars->addr == NULL)
+		error_exit(vars);
 	vars->args->scale /= ARGS_DIV;
 	vars->args->cx /= ARGS_DIV;
 	vars->args->cy /= ARGS_DIV;
