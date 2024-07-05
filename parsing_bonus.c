@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 21:20:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/02 18:07:35 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/05 15:30:49 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	parsing(t_args *args, int argc, char *argv[])
 	if (argc == 1)
 		return (print_help());
 	if (atoi_check_num(argv[1], &(args->type)) == 0 \
-		|| 0 > args->type || args->type > 3)
+		|| 0 > args->type || args->type > 2)
 		return (print_help());
 	if (argc > 2)
 		if (atoi_double_check_num(argv[2], &(args->cx)) == 0)
@@ -45,10 +45,12 @@ int	parsing(t_args *args, int argc, char *argv[])
 		if (atoi_double_check_num(argv[3], &args->cy) == 0)
 			return (print_help());
 	if (argc > 4)
-		if (atoi_double_check_num(argv[4], &(args->scale)) == 0)
+		if (atoi_double_check_num(argv[4], &(args->scale)) == 0 \
+		|| args->scale <= 0)
 			return (print_help());
 	if (argc > 5)
-		if (atoi_double_check_num(argv[5], &(args->threshold)) == 0)
+		if (atoi_double_check_num(argv[5], &(args->threshold)) == 0 \
+		|| args->threshold <= 0)
 			return (print_help());
 	return (parsing2(args, argc, argv));
 }
