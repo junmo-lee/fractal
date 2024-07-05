@@ -4,16 +4,16 @@ NAME	= fractol
 NAME_B	= fractol_bouns
 
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -O3
-CDEF	= -MMD -MP
+CFLAGS	= -Wall -Wextra -Werror -MMD -MP -O3
 
-LIBFT = ./libft/libft.a
-LIBFT_DIR = libft/
+LIBFT_DIR = ./libft
+LIBFT = $(LIBFT_DIR)/libft.a
 
 INC		= fractal.h
 INC_B	= fractal_bouns.h
 
-LIBS	= -L ./libft -lft -L /usr/local/lib -lmlx -framework OpenGL -framework AppKit
+LDFLAGS	= -L$(LIBFT_DIR) -framework OpenGL -framework AppKit
+LDLIBS	= -lft -lmlx 
 
 SRCS	= main.c \
 			init.c parsing.c atoi_check_num.c \
@@ -32,7 +32,7 @@ OBJS_B	= $(SRCS_B:.c=.o)
 
 DEF		= $(SRCS:.c=.d) 
 DEF_B	= $(SRCS_B:.c=.d)
--include $(DEP) $(DEF_B)
+-include $(DEF) $(DEF_B)
 
 $(LIBFT) :
 	make -C $(LIBFT_DIR) all
@@ -42,25 +42,25 @@ $(LIBFT) :
 
 $(NAME): $(LIBFT) $(OBJS)
 	cp $(LIBFT) $(NAME)
-	$(CC) $(CFLAGS) $(CDEF) $^ -o $(NAME) -I $(INC) $(LIBS)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $^ -o $(NAME) -I $(INC)
 
 $(NAME_B): $(LIBFT) $(OBJS_B)
 	cp $(LIBFT) $(NAME_B)
-	$(CC) $(CFLAGS) $(CDEF) $^ -o $(NAME_B) -I $(INC_B) $(LIBS)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $^ -o $(NAME_B) -I $(INC_B) $(LIBS)
 
 all : $(NAME)
 bonus : $(NAME_B)
 
 clean :
-	make -C $(LIBFT_DIR) clean
-	rm -f $(OBJS) $(OBJS_B) $(DEF) $(DEF_B)
+	$(MAKE) -C $(LIBFT_DIR) clean
+	$(RM) $(OBJS) $(OBJS_B) $(DEF) $(DEF_B)
 
 fclean :
-	make -C $(LIBFT_DIR) fclean
-	rm -f $(OBJS) $(OBJS_B) $(DEF) $(DEF_B) $(NAME) $(NAME_B)
+	$(MAKE) -C $(LIBFT_DIR) fclean
+	$(RM) $(OBJS) $(OBJS_B) $(DEF) $(DEF_B) $(NAME) $(NAME_B)
 
 re :
-	make fclean
-	make all
+	$(MAKE) fclean
+	$(MAKE) all
 
 .PHONY : all bonus clean fclean re
